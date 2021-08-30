@@ -29,7 +29,7 @@ import config  # подключаем конфигурационный файл
 
 
 s_city = "Yevpatoriya,UA"
-appid = "37e2eddb7d4ca04f27cac2b41d94baa9"
+appid = "1111111111"
 
 """ Settings """
 #Time Zone
