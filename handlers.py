@@ -4,7 +4,7 @@ import pytz
 import logging
 
 from config import TIME_ZONE
-from functions import get_weather_today, send_currency_price
+from functions import send_current_weather, send_currency_price
 from keyboards import kb_cryptocurrency, kb_set_language
 
 from telegram.ext import Job
@@ -36,17 +36,18 @@ def add_weather_task(update, context):
     if len(context.args) > 1:
         send_days = []
         for i in context.args[0:-1]:
-            send_days.append(int(i))
+            send_days.append(int(i) - 1)
         send_time = time(
             int(context.args[-1].split(sep=":")[0]),
             int(context.args[-1].split(sep=":")[1]),
             tzinfo=pytz.timezone("Europe/Moscow"),
         )
+        context.user_data["chat_id"] = update.message.chat_id
         context.job_queue.run_daily(
-            get_weather_today,
+            send_current_weather,
             send_time,
             days=(tuple(send_days)),
-            context=update.message.chat_id,
+            context=context,
             name="daily weather",
         )
         update.message.reply_text("Задание добавлено")
@@ -74,6 +75,7 @@ def add_crypto_currency_price_task(update, context):
         context=context,
         name="daily crypto price",
     )
+    update.message.reply_text("Задание добавлено")
 
 
 def remove_task(update, context):

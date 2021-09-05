@@ -35,7 +35,7 @@ import requests
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 from config import (
-    WEATHER_URL,
+    WEATHER_API_URL,
     WEATHER_PARAM,
     DEFAULT_CITY,
     COINMARKET_API_KEY,
@@ -64,7 +64,7 @@ def set_lang_en(update, context):
 def get_weather_today(context):
     logging.info("Run get_weather_today functions")
     try:
-        res = requests.get(WEATHER_URL, params=WEATHER_PARAM)
+        res = requests.get(WEATHER_API_URL, params=WEATHER_PARAM)
         data = res.json()
         return data
 
@@ -93,7 +93,7 @@ def get_crypto_currency_price(currency):
             COINMARKET_URL,
             params=COINMARKET_PARAM,
             headers=COINMARKET_HEADERS,
-        )
+        ) 
         currencys = json.loads(res.text)
         for item in currencys["data"]:
             if item["name"].upper() == currency.upper() or \
@@ -106,15 +106,15 @@ def get_crypto_currency_price(currency):
 
 
 def send_current_weather(context):
-    get_weather_today(context)
+    weather = get_weather_today(context)
     context.bot.send_message(
         chat_id=context.job.context.user_data["chat_id"],
         text=(
-            f"Погода в {data['name']} сейчас:\n"
-            f"Температура: 🌡{int(data['main']['temp'])}️°C\n"
-            f"Ощущается как: 🖐️🌡{int(data['main']['feels_like'])}°C\n"
-            f"Ветер 🌬️{int(data['wind']['speed'])}️м/c\n"
-            f"{data['weather'][0]['description']}️\n"
+            f"Погода в {weather['name']} сейчас:\n"
+            f"Температура: 🌡 {int(weather['main']['temp'])}️°C\n"
+            f"Ощущается как: 🖐️🌡 {int(weather['main']['feels_like'])}°C\n"
+            f"Ветер 🌬️ {int(weather['wind']['speed'])}️м/c\n"
+            f"{weather['weather'][0]['description']}️\n"
         ),
     )
 
