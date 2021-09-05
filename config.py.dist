@@ -1,0 +1,16 @@
+BOT_TOKEN = 'TOKEN'
+DEFAULT_CITY = 'Yevpatoriya,UA'
+TIME_ZONE = 'Europe/Simferopol'
+
+""" WEATHER SECTION """
+WEATHER_TOKEN = 'TOKEN'
+WEATHER_API_URL = 'http://api.openweathermap.org/data/2.5/weather'
+# TODO передавать город в функции
+WEATHER_PARAM = {'q': DEFAULT_CITY, 'type': 'like', 'units': 'metric', 'APPID': WEATHER_TOKEN, 'lang': 'ru'}
+
+""" CRYPTOCURENCY SECTION """
+COINMARKET_API_KEY = 'KEY'
+COINMARKET_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest' 
+COINMARKET_PARAM = { 'start':'1', 'limit':'5000', 'convert':'USD'}
+COINMARKET_HEADERS = { 'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': COINMARKET_API_KEY}
+
